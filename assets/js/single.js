@@ -43,11 +43,6 @@ var getRepoIssues = function (repo) {
     getRepoIssues("facebook/react");
 
     var displayIssues = function (issues) {
-
-        if (issues.length === 0) {
-            issueContainerEl.textContent = "This repo has no open issues!";
-            return;
-        }
         //Convert Fetched Data into DOM Elements
         var displayIssues = function (issues) {
             fetch(apiUrl).then(function (response) {
@@ -64,7 +59,12 @@ var getRepoIssues = function (repo) {
             });
         };
 
+        var displayIssues = function (issues) {
 
+            if (issues.length === 0) {
+                issueContainerEl.textContent = "This repo has no open issues!";
+                return;
+            }
         // loop over the response data and create an <a> element for each issue
         for (var i = 0; i < issues.length; i++) {
             // create a link element to take users to the issue on github
@@ -72,7 +72,7 @@ var getRepoIssues = function (repo) {
             issueEl.classList = "list-item flex-row justify-space-between align-center";
             issueEl.setAttribute("href", issues[i].html_url);
             issueEl.setAttribute("target", "_blank");
-            issueContainerEl.appendChild(issueEl);
+    
         }
         //This code will create an <a> element 
         // create span to hold issue title
@@ -95,9 +95,15 @@ var getRepoIssues = function (repo) {
         // append to container
         issueEl.appendChild(typeEl);
 
+        issueContainerEl.appendChild(issueEl);
+
     }
 
+    };
+
     var displayWarning = function (repo) {
+        // add text to warning container
+        limitWarningEl.textContent = "To see more than 30 issues, visit ";
         var linkEl = document.createElement("a");
         linkEl.textContent = "See More Issues on GitHub.com";
         linkEl.setAttribute("href", "https://github.com/" + repo + "/issues");
@@ -105,7 +111,7 @@ var getRepoIssues = function (repo) {
 
         // append to warning container
         limitWarningEl.appendChild(linkEl);
-        // add text to warning container
-        limitWarningEl.textContent = "To see more than 30 issues, visit ";
     };
+
+    getRepoName();
 
